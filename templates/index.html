@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Tracker</h1>
+        <form method="POST">
+            <input type="text" name="ticker" placeholder="Enter stock ticker" required>
+            <select name="market">
+                <option value="US">US</option>
+                <option value="NS">NSE</option>
+                <option value="BO">BSE</option>
+            </select>
+            <input type="submit" value="Search">
+        </form>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if stock_data %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Open</th>
+                            <th>High</th>
+                            <th>Low</th>
+                            <th>Close</th>
+                            <th>Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in stock_data %}
+                            <tr>
+                                <td>{{ row['Date'] }}</td>
+                                <td>{{ row['Open'] }}</td>
+                                <td>{{ row['High'] }}</td>
+                                <td>{{ row['Low'] }}</td>
+                                <td>{{ row['Close'] }}</td>
+                                <td>{{ row['Volume'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        {% if insights %}
+            <div class="insights">
+                <h2>Insights</h2>
+                <p>Latest Price: {{ insights.latest_price }}</p>
+                <p>Highest Price: {{ insights.highest_price }}</p>
+                <p>Lowest Price: {{ insights.lowest_price }}</p>
+                <p>Average Volume: {{ insights.average_volume }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
